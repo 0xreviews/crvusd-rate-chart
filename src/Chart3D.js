@@ -230,8 +230,8 @@ export function Chart3D({ fraction, price, rate, totalDebt, onHover, onHoverOut 
       <div id="chart3D" className="chart-3D" width={500} height={500}></div>
       <ul className="chart-3D-hoverinfo">
         <li>crvUSD price: ${hoverPrice.toFixed(4)}</li>
-        <li>DebtFraction: ${(hoverFraction * 100).toFixed(2)}%</li>
-        <li>rate: ${(hoverRate * 100).toFixed(2)}%</li>
+        <li>DebtFraction: {(hoverFraction * 100).toFixed(2)}%</li>
+        <li>rate: {(hoverRate * 100).toFixed(2)}%</li>
       </ul>
     </div>
   );
