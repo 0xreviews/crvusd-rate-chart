@@ -16,6 +16,7 @@ import {
   callStablePrice,
   callTotalDebt,
 } from "./callContract";
+import { Chart3D } from "./Chart3D";
 
 function App() {
   const [totalDebt, setTotalDebt] = useState(10000);
@@ -35,9 +36,9 @@ function App() {
   const [fractionRateData, setFractionRateData] = useState(null);
   const [priceRateData, setPriceRateData] = useState(null);
 
-  const [hoverChart, setHoverChart] = useState(-1); // 0 fractionRate 1 priceRate
-  const [actDesc, setActDesc] = useState(-1);
+  const [actDesc, setActDesc] = useState("");
   const [renderTimeoutId, setRenderTimeoutId] = useState(null);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   async function callContractData() {
     const [p, totalDebt, pkDebt] = await Promise.all([
@@ -88,12 +89,14 @@ function App() {
     if (chart.tooltip.dataPoints) {
       const index = chart.tooltip.dataPoints[0].dataIndex;
       if (index < 0) {
-        setHoverChart(-1);
-        setActDesc(-1);
+        setActDesc("");
         return;
       }
-      setHoverChart(1);
-      setActDesc(index);
+      if (index < priceRateDefaultIndex) {
+        setActDesc("0");
+      } else {
+        setActDesc("1");
+      }
     }
 
     externalTooltipHandler(
@@ -139,83 +142,137 @@ function App() {
 
   return (
     <div className="App">
-      <h2 style={{ padding: `8px 16px` }}>crvUSD Rate Chart</h2>
-      <div className="layout">
+      <h2 className="title">crvUSD Rate Chart</h2>
+      <div className="">
         <div>
           <p
             className={`desc-p ${
-              hoverChart === 1 && actDesc < priceRateDefaultIndex
-                ? " desc-p-act"
-                : ""
+              actDesc.indexOf("0") < 0 ? "" : " desc-p-act"
             }`}
           >
             When crvUSD price goes lower, the rate goes higher.
           </p>
           <p
             className={`desc-p ${
-              hoverChart === 1 && actDesc > priceRateDefaultIndex
-                ? " desc-p-act"
-                : ""
+              actDesc.indexOf("1") < 0 ? "" : " desc-p-act"
             }`}
           >
             When crvUSD price goes higher, the rate goes lower.
           </p>
           <p
             className={`desc-p ${
-              hoverChart === 0 && actDesc === 0 ? " desc-p-act" : ""
+              actDesc.indexOf("2") < 0 ? "" : " desc-p-act"
             }`}
           >
             When DebtFraction goes lower, the rate goes higher.
           </p>
           <p
             className={`desc-p ${
-              hoverChart === 0 && actDesc === 1 ? " desc-p-act" : ""
+              actDesc.indexOf("3") < 0 ? "" : " desc-p-act"
             }`}
           >
             When DebtFraction goes higher, the rate goes lower.
           </p>
-          <div className="fraction-range">
-            <span className="fraction-range-text">
-              fraction: {(hoverFraction * 100).toFixed(2)}%
-            </span>
-            <input
-              className="fraction-range-input"
-              type="range"
-              min={0}
-              max={0.3}
-              step={0.001}
-              value={hoverFraction}
-              onChange={(e) => {
-                if (e.target && e.target.value) {
-                  const f = Number(e.target.value);
-                  setHoverFraction(f);
-                  setHoverChart(0);
-                  if (f < fraction) {
-                    setActDesc(0);
+        </div>
+      </div>
+      <label className="graph-toggle">
+        <input
+          type="checkbox"
+          value={showAdvanced}
+          onChange={(e) => {
+            if (e.target) {
+              if (e.target.value === "true") {
+                setShowAdvanced(false);
+              } else {
+                setShowAdvanced(true);
+              }
+            }
+          }}
+        />
+        Advanced 3D graph
+      </label>
+      <div className="layout">
+        <div>
+          <div className={`${showAdvanced ? "" : "hide"}`}>
+            <Chart3D
+              price={price}
+              fraction={fraction}
+              rate={calculate_rate_yearly(
+                price,
+                fraction * totalDebt,
+                totalDebt
+              )}
+              totalDebt={totalDebt}
+              onHover={({ hoverPrice, hoverFraction, hoverRate }) => {
+                if (!!hoverPrice && !!hoverFraction && !!hoverRate) {
+                  setHoverFraction(hoverFraction);
+                  setHoverPrice(hoverPrice);
+                  setHoverRate(hoverRate);
+                  let str = "";
+                  if (hoverPrice < price) {
+                    str += "0";
                   } else {
-                    setActDesc(1);
+                    str += "1";
                   }
+                  if (hoverFraction < fraction) {
+                    str += "2";
+                  } else {
+                    str += "3";
+                  }
+                  setActDesc(str);
                 }
               }}
-              onMouseOut={(e) => {
+              onHoverOut={(data) => {
                 setHoverFraction(fraction);
-                setHoverChart(-1);
-                setActDesc(-1);
+                setHoverPrice(price);
+                setHoverRate(
+                  calculate_rate_yearly(price, fraction * totalDebt, totalDebt)
+                );
+                setActDesc("");
               }}
             />
           </div>
-          <LineChart
-            type={`priceRate`}
-            defaultTooltipIndex={priceRateDefaultIndex}
-            renderTimeoutId={renderTimeoutId}
-            data={priceRateData}
-            tooltipHead2={`fraction: ${(hoverFraction * 100).toFixed(2)}%`}
-            tooltipHanlder={priceRateTooltipHandler}
-            onMoveOut={() => {
-              setHoverChart(-1);
-              setActDesc(-1);
-            }}
-          />
+          <div className={`${!showAdvanced ? "" : "hide"}`}>
+            <div className="fraction-range">
+              <span className="fraction-range-text">
+                fraction: {(hoverFraction * 100).toFixed(2)}%
+              </span>
+              <input
+                className="fraction-range-input"
+                type="range"
+                min={0}
+                max={0.3}
+                step={0.001}
+                value={hoverFraction}
+                onChange={(e) => {
+                  if (e.target && e.target.value) {
+                    const f = Number(e.target.value);
+                    setHoverFraction(f);
+                    if (f < fraction) {
+                      setActDesc("2");
+                    } else {
+                      setActDesc("3");
+                    }
+                  }
+                }}
+                onMouseOut={(e) => {
+                  setHoverFraction(fraction);
+                  setActDesc("");
+                }}
+              />
+            </div>
+            <LineChart
+              type={`priceRate`}
+              defaultTooltipIndex={priceRateDefaultIndex}
+              renderTimeoutId={renderTimeoutId}
+              data={priceRateData}
+              tooltipHead2={`fraction: ${(hoverFraction * 100).toFixed(2)}%`}
+              tooltipHanlder={priceRateTooltipHandler}
+              onMoveOut={() => {
+                setActDesc("");
+              }}
+            />
+          </div>
         </div>
       </div>
 
