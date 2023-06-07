@@ -1,0 +1,96 @@
+.chart-container {
+  position: relative;
+  padding: 6px 12px;
+  height: 320px;
+  max-width: 600px;
+  margin-bottom: 10px;
+}
+.tooltip {
+  padding: 0;
+  border-radius: 3px;
+  color: white;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 0);
+  transition: all .05s ease;
+}
+.tooltip-table {
+  margin: 0;
+  padding: 6px;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+  transform: translate(0, -140%);
+  background: rgba(0, 0, 0, 0.7);
+}
+.tooltip-axisLine {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 1px;
+  height: 300px;
+  border-left: 3px dashed rgb(54, 162, 235);
+  /* background-color: rgb(54, 162, 235); */
+}
+
+.default-dashLine {
+  position: absolute;
+  display: block;
+  top: 24px;
+  z-index: -1;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 1px;
+  border-left: 2px dashed rgb(201, 203, 207);
+  height: 200px;
+}
+.tooltip-dot {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 8px;
+  height: 8px;
+  border-radius: 7px;
+  border: 3px solid rgb(54, 162, 235);
+  background-color: #fff;
+}
+
+.layout {
+  display: flex;
+  padding: 16px;
+}
+@media screen and (max-width: 750px) {
+  .layout {
+    display: block;
+  }
+}
+.desc {
+  display: flex;
+}
+.desc-table {
+  padding: 10px;
+}
+.desc-table td {
+  padding: 4px;
+  border: 1px solid #eee;
+}
+
+.desc-img {
+  display: block;
+  padding: 16px;
+  margin: 0 auto;
+}
+.desc-p {
+  padding: 4px 16px 4px 38px;
+  font-size: 14px;
+  color: #333;
+}
+
+.desc-p-act {
+  color: #ff4040;
+  font-weight: bold;
+  /* background-color: rgb(54, 162, 235); */
+}
