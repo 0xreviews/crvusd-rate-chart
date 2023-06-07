@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { calculate_rate_yearly } from "./calcRate";
 import { DATA_POINTS_LEN, END_PRICE, START_PRICE } from "./chartConfig";
 
-const DATA_LEN = 100;
+const DATA_LEN = 20;
 const priceStep = (END_PRICE - START_PRICE) / DATA_LEN;
 const fractionStep = (0.5 - 0) / DATA_LEN;
 
