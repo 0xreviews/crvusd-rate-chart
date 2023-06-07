@@ -81,7 +81,7 @@
 .desc-img {
   display: block;
   padding: 16px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 .desc-p {
   padding: 4px 16px 4px 38px;
@@ -93,4 +93,18 @@
   color: #ff4040;
   font-weight: bold;
   /* background-color: rgb(54, 162, 235); */
+}
+
+.fraction-range {
+  margin: 0 auto;
+  width: 80%;
+  box-sizing: border-box;
+  padding: 16px;
+}
+.fraction-range-text {
+  font-size: 14px;
+  padding-right: 16px;
+}
+.fraction-range-input {
+  width: 100%;
 }
