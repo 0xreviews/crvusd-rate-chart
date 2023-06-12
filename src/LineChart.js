@@ -9,6 +9,9 @@ export default function LineChart({
   defaultTooltipIndex,
   renderTimeoutId,
   data,
+  defaultTitle,
+  defaultValue,
+  defaultSubTitle,
   tooltipHead2,
   tooltipHanlder,
   onMoveOut,
@@ -29,7 +32,7 @@ export default function LineChart({
             tooltipHanlder({
               chart: chart,
               tooltip: chart.tooltip,
-            });
+            }, defaultTitle, defaultValue);
           },
         },
         plugins: [
@@ -40,7 +43,7 @@ export default function LineChart({
               if (event.type === "mouseout") {
                 // reset chart to current state
                 setTimeout(() => {
-                  tooltipHanlder({ chart, tooltip: chart.tooltip });
+                  tooltipHanlder({ chart, tooltip: chart.tooltip }, defaultTitle, defaultValue);
                   const rateTooltip = document.querySelector(`#${type}TooltipId`);
                   const left =
                     ((chart.width - chart.chartArea.left) * defaultTooltipIndex) /
@@ -48,6 +51,7 @@ export default function LineChart({
                     chart.chartArea.left;
                   rateTooltip.style.left = `${left}px`;
                   onMoveOut(chart);
+                  console.log({defaultTitle, defaultValue})
                 }, 0);
               }
             },
@@ -113,8 +117,93 @@ export default function LineChart({
       }px`;
       rateTooltip.style.top = `50%`;
     }
-  }, [renderTimeoutId, data, defaultTooltipIndex]);
+  }, [renderTimeoutId, data]);
 
+  useEffect(() => {
+    let chart = Chart.getChart(`${type}ChartId`);
+    if (chart) {
+      chart.destroy();
+      chart = new Chart(chartRef.current, {
+        type: "line",
+        data: data,
+        options: {
+          ...CHART_LINE_CFG.options,
+          onHover: (e) => {
+            tooltipHanlder({
+              chart: chart,
+              tooltip: chart.tooltip,
+            }, defaultTitle, defaultValue);
+          },
+        },
+        plugins: [
+          {
+            id: `${type}MouseOut`,
+            beforeEvent(chart, args, pluginOptions) {
+              const event = args.event;
+              if (event.type === "mouseout") {
+                // reset chart to current state
+                setTimeout(() => {
+                  tooltipHanlder({ chart, tooltip: chart.tooltip }, defaultTitle, defaultSubTitle, defaultValue);
+                  const rateTooltip = document.querySelector(`#${type}TooltipId`);
+                  const left =
+                    ((chart.width - chart.chartArea.left) * defaultTooltipIndex) /
+                      DATA_POINTS_LEN +
+                    chart.chartArea.left;
+                  rateTooltip.style.left = `${left}px`;
+                  onMoveOut(chart);
+                }, 0);
+              }
+            },
+          },
+        ]
+      });
+
+      if (type === "priceRate") {
+        chart.options.scales.x.ticks.callback = function (value, index) {
+          return index % 80 === 0 || index === DATA_POINTS_LEN + 1
+            ? (this.getLabelForValue(value) * 1).toFixed(4)
+            : null;
+        };
+        // chart.options.scales.y.max = 0.08;
+        chart.options.scales.x.title = {
+          display: true,
+          text: "crvUSD price",
+        };
+      } else {
+        // chart.options.scales.y.max = 0.1;
+        chart.options.scales.x.title = {
+          display: true,
+          text: "DebtFraction",
+        };
+      }
+
+      chart.plugins = [
+        {
+          id: `${type}MouseOut`,
+          beforeEvent(chart, args, pluginOptions) {
+            const event = args.event;
+            if (event.type === "mouseout") {
+              // reset chart to current state
+              setTimeout(() => {
+                tooltipHanlder({ chart, tooltip: chart.tooltip }, defaultTitle, defaultSubTitle, defaultValue);
+                const rateTooltip = document.querySelector(`#${type}TooltipId`);
+                const left =
+                  ((chart.width - chart.chartArea.left) * defaultTooltipIndex) /
+                    DATA_POINTS_LEN +
+                  chart.chartArea.left;
+                rateTooltip.style.left = `${left}px`;
+                onMoveOut(chart);
+                console.log({defaultTitle, defaultValue})
+              }, 0);
+            }
+          },
+        },
+      ]
+      console.log("chart update")
+      chart.update("reset");
+    }
+
+  }, [defaultTooltipIndex])
 
   return (
     <div className="chart-container">

@@ -19,6 +19,7 @@ function App() {
   const [pkDebt, setPkDebt] = useState(1400);
   const [fraction, setFraction] = useState(pkDebt / totalDebt);
   const [price, setPrice] = useState(1.0);
+  const [rate, setRate] = useState(calculate_rate_yearly(price, fraction * totalDebt, totalDebt));
 
   const [fractionRateDefaultIndex, setFractionRateDefaultIndex] = useState(-1);
   const [priceRateDefaultIndex, setPriceRateDefaultIndex] = useState(-1);
@@ -26,7 +27,7 @@ function App() {
   const [hoverFraction, setHoverFraction] = useState(fraction);
   const [hoverPrice, setHoverPrice] = useState(price);
   const [hoverRate, setHoverRate] = useState(
-    calculate_rate_yearly(price, fraction * totalDebt, totalDebt)
+    rate
   );
 
   const [fractionRateData, setFractionRateData] = useState(null);
@@ -49,8 +50,11 @@ function App() {
     setPkDebt(pkDebt);
 
     const f = pkDebt / totalDebt;
+    const r = calculate_rate_yearly(p, f * totalDebt, totalDebt)
     setFraction(f);
+    setRate(r)
     setHoverFraction(f);
+    setHoverRate(r)
     console.log(
       `call contract res: p ${p} totalDebt ${totalDebt} price ${price} fraction ${f}`
     );
@@ -60,9 +64,7 @@ function App() {
     callContractData();
   }, []);
 
-  function priceRateTooltipHandler(chart) {
-    let title = `price: ${price.toFixed(4)}`;
-    let value = `rate: ${(hoverRate * 100).toFixed(4)}%`;
+  function priceRateTooltipHandler(chart, title, subtitle, value) {
 
     if (chart.tooltip.opacity === 0) {
       setHoverPrice(price);
@@ -100,7 +102,7 @@ function App() {
       "priceRateTooltipId",
       title,
       value,
-      `fraction: ${(fraction * 100).toFixed(0)}%`,
+      subtitle,
       priceRateDefaultIndex
     );
   }
@@ -282,6 +284,9 @@ function App() {
               defaultTooltipIndex={priceRateDefaultIndex}
               renderTimeoutId={renderTimeoutId}
               data={priceRateData}
+              defaultTitle={`price: ${price.toFixed(4)}`}
+              defaultValue={`rate: ${(rate * 100).toFixed(4)}%`}
+              defaultSubTitle={`fraction: ${(fraction * 100).toFixed(2)}%`}
               tooltipHead2={`fraction: ${(hoverFraction * 100).toFixed(2)}%`}
               tooltipHanlder={priceRateTooltipHandler}
               onMoveOut={() => {
