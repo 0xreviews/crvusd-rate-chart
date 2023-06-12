@@ -16,7 +16,7 @@ import { Chart3D } from "./Chart3D";
 
 function App() {
   const [totalDebt, setTotalDebt] = useState(10000);
-  const [pkDebt, setPkDebt] = useState(1400);
+  const [pkDebt, setPkDebt] = useState(400);
   const [fraction, setFraction] = useState(pkDebt / totalDebt);
   const [price, setPrice] = useState(1.0);
   const [rate, setRate] = useState(calculate_rate_yearly(price, fraction * totalDebt, totalDebt));
