@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { calculate_rate_yearly } from "./calcRate";
 import "./App.css";
-import LogoSVG from "./logo.svg"
+import LogoSVG from "./logo.svg";
 import { externalTooltipHandler } from "./tooltip";
 import {
-  processFractionRateData,
   processPriceRateData,
   searchLabelIndex,
 } from "./chartConfig";
