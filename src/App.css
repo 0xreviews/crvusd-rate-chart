@@ -27,7 +27,8 @@
   font-weight: bold;
 }
 
-.title {
+.app-title {
+  position: relative;
   padding: 10px;
   padding-left: 32px;
 }
@@ -173,7 +174,11 @@
   margin-right: 16px;
 }
 
-
+.github-btn {
+  position: absolute;
+  right: 0;
+  top: 12px;
+}
 
 
 

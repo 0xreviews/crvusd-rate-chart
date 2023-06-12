@@ -3,10 +3,7 @@ import { calculate_rate_yearly } from "./calcRate";
 import "./App.css";
 import LogoSVG from "./logo.svg";
 import { externalTooltipHandler } from "./tooltip";
-import {
-  processPriceRateData,
-  searchLabelIndex,
-} from "./chartConfig";
+import { processPriceRateData, searchLabelIndex } from "./chartConfig";
 import LineChart from "./LineChart";
 
 import fomulaImg from "./crvusd-rate-fomula.png";
@@ -150,7 +147,18 @@ function App() {
           </span>
         </a>
       </div>
-      <h2 className="title">crvUSD Rate Chart</h2>
+      <h2 className="app-title">
+        crvUSD Rate Chart
+        <div className="github-btn">
+          <iframe
+            src="https://ghbtns.com/github-btn.html?user=0xreviews&repo=crvusd-rate-chart&type=star&count=false"
+            frameborder="0"
+            width="150"
+            height="20"
+            title="GitHub"
+          ></iframe>
+        </div>
+      </h2>
       <div className="">
         <div>
           <p
