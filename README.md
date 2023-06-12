@@ -4,17 +4,11 @@ This tool can simulate [crvUSD(Curve StableCoin)](https://github.com/curvefi/cur
 
 ## crvUSD Loan Rate
 
-$
-{DebtFraction} = \frac{PegKeeperDebt}{TotalDebt}
-$
+${DebtFraction} = \frac{PegKeeperDebt}{TotalDebt}$
 
-$
-{power} = \frac{Price_{Peg} - Price_{crvUSD}}{sigma} - \frac{DebtFraction}{TargetFraction}
-$
+${power} = \frac{Price_{Peg} - Price_{crvUSD}}{sigma} - \frac{DebtFraction}{TargetFraction}$
 
-$
-{r} = rate0 * e^{power}
-$
+${r} = rate0 * e^{power}$
 
 The loan rate of crvUSD mainly adjusted by two dimensions, crvUSD price and the ratio of PegKeepers' debt to total debt.
 
