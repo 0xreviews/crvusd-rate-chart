@@ -8,14 +8,13 @@
   text-decoration: none;
   height: 50px;
   line-height: 50px;
-  color: 202 10.5% 14.9%;
-
+  color: #333;
 }
 .logo:hover {
   color: 202 10.5% 14.9%;
 }
 .logo span {
-  font-size: 17px;
+  font-size: 20px;
   color: inherit;
 }
 .logo .logo-svg {
@@ -23,6 +22,9 @@
   margin-right: 12px;
   width: 50px;
   height: 50px;
+}
+.font-bold {
+  font-weight: bold;
 }
 
 .title {
