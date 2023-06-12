@@ -2,6 +2,28 @@
   max-width: 700px;
   margin: 0 auto;
 }
+.logo {
+  display: inline-flex;
+  text-decoration: none;
+  height: 50px;
+  line-height: 50px;
+  color: 202 10.5% 14.9%;
+
+}
+.logo:hover {
+  color: 202 10.5% 14.9%;
+}
+.logo span {
+  font-size: 17px;
+  color: inherit;
+}
+.logo .logo-svg {
+  margin-left: 12px;
+  margin-right: 12px;
+  width: 50px;
+  height: 50px;
+}
+
 .title {
   padding: 10px;
   padding-left: 32px;
@@ -90,6 +112,9 @@
 .desc-img {
   display: block;
   padding: 16px;
+  width: 90%;
+  min-width: 500px;
+  max-width: 700px;
   /* margin: 0 auto; */
 }
 .desc-p {

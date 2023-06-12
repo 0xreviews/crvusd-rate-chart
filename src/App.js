@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { calculate_rate_yearly } from "./calcRate";
-
 import "./App.css";
+import LogoSVG from "./logo.svg"
 import { externalTooltipHandler } from "./tooltip";
 import {
   processFractionRateData,
@@ -142,6 +142,15 @@ function App() {
 
   return (
     <div className="App">
+      <div>
+        <a href="https://0xreviews.xyz/" className="logo">
+          <span className="arrow">&larr;</span>
+          <img className="logo-svg" src={LogoSVG} />
+          <span>
+            back to <span className="font-bold">0xreviews.xyz</span>
+          </span>
+        </a>
+      </div>
       <h2 className="title">crvUSD Rate Chart</h2>
       <div className="">
         <div>
