@@ -61,13 +61,13 @@ export default function LineChart({
             ? (this.getLabelForValue(value) * 1).toFixed(4)
             : null;
         };
-        chart.options.scales.y.max = 0.08;
+        // chart.options.scales.y.max = 0.08;
         chart.options.scales.x.title = {
           display: true,
           text: "crvUSD price",
         };
       } else {
-        chart.options.scales.y.max = 0.1;
+        // chart.options.scales.y.max = 0.1;
         chart.options.scales.x.title = {
           display: true,
           text: "DebtFraction",
@@ -75,7 +75,7 @@ export default function LineChart({
       }
     } else {
       chart.data = { ...data };
-      chart.update();
+      chart.update("resize");
     }
 
     if (!chart.tooltip.getActiveElements().length && defaultTooltipIndex > -1) {
