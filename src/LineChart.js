@@ -199,7 +199,6 @@ export default function LineChart({
           },
         },
       ]
-      console.log("chart update")
       chart.update("reset");
     }
 

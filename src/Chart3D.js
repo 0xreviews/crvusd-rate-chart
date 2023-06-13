@@ -196,8 +196,10 @@ export function Chart3D({ fraction, price, rate, totalDebt, onHover, onHoverOut 
 
   useEffect(() => {
     if (!price || !fraction || !totalDebt) return;
+    let r = calculate_rate_yearly(price, fraction * totalDebt, totalDebt)
     setHoverPrice(price);
     setHoverFration(fraction);
+    setHoverRate(r)
     surfaceRender(price, fraction, totalDebt);
     setTimeout(() => {
       const chart3D = document.querySelector("#chart3D");

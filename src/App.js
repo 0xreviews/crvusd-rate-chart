@@ -154,7 +154,7 @@ function App() {
         <div className="github-btn">
           <iframe
             src="https://ghbtns.com/github-btn.html?user=0xreviews&repo=crvusd-rate-chart&type=star&count=false"
-            frameborder="0"
+            frameBorder="0"
             width="150"
             height="20"
             title="GitHub"
