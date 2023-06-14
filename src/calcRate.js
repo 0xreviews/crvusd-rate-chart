@@ -10,8 +10,6 @@ export let sigma = 0.02;
 //     '0x6B765d07cf966c745B340AdCa67749fE75B5c345',
 //     '0x1ef89Ed0eDd93D1EC09E4c07373f69C49f4dcCae',
 //     '0x0000000000000000000000000000000000000000']
-// let pegkeeper_debt = 264529.72 + 0 + 762459.89 + 335904.99;
-// let total_debt = 9286475.23;
 
 export function calculate_rate(price, pegkeeper_debt, total_debt) {
     let power = (1 - price) / sigma;

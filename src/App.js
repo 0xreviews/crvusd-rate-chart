@@ -56,7 +56,7 @@ function App() {
     setHoverFraction(f);
     setHoverRate(r)
     console.log(
-      `call contract res: p ${p} totalDebt ${totalDebt} price ${price} fraction ${f}`
+      `call contract res: p ${p} totalDebt ${totalDebt} pkDebt ${pkDebt} price ${price} fraction ${f}`
     );
   }
 

@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Chart, Tooltip } from "chart.js";
-import { calculate_rate_yearly } from "./calcRate";
+import { useEffect, useRef } from "react";
+import { Chart } from "chart.js";
 import { CHART_LINE_CFG, DATA_POINTS_LEN } from "./chartConfig";
 import { externalTooltipHandler } from "./tooltip";
 
